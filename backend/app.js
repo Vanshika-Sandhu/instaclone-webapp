@@ -11,6 +11,10 @@ const postRouter = require("./router/postRouter");
 const authRouter = require("./router/authRouter");
 const userModel = require("../backend/model/userModel");
 
+const path = require("path");
+console.log(path);
+
+
 
 const app = express();
 app.use(express.static("public"));
@@ -88,6 +92,33 @@ passport.use(
 
 //for all the user related functions, navigate to userRouter
 //localhost:4000/api/user  post method
+
+// const PORT = process.env.PORT || 4000;
+
+// if(process.env.NODE_ENV === 'production'){
+    //     app.use(express.static(path.join(_dirname,"/frontend/public")));
+    //     app.get('*', (req, res)=> {
+        //         res.sendFile(path.resolve(_dirname, "frontend", "public", "index.html" ));
+        //     })
+        // }else{
+            //     app.get("/", (req, res)=>{
+                //         res.send("API is running");
+                //     })
+                // }
+                
+_dirname = path.resolve();
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static(path.join(_dirname,"/frontend/build")));
+    app.get('*', (req, res)=> {
+        res.sendFile(path.resolve(_dirname, "frontend", "build", "index.html" ));
+    })
+}else{
+    app.get("/", (req, res)=>{
+        res.send("API is running");
+    })
+}
+
+
 app.use("/api/user" , userRouter);
 
 // for all the request related functions
