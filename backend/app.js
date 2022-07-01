@@ -10,9 +10,18 @@ const requestRouter = require("./router/requestRouter");
 const postRouter = require("./router/postRouter");
 const authRouter = require("./router/authRouter");
 const userModel = require("../backend/model/userModel");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 
 const path = require("path");
 console.log(path);
+
+
+// dotenv.config();
+// app.use(bodyParser.json({limit:"30mb", extended:true}));
+// app.use(bodyParser.urlencoded({limit:"30mb, extended:true"}));
+
+// app.use(cors());
 
 
 
@@ -93,7 +102,7 @@ passport.use(
 //for all the user related functions, navigate to userRouter
 //localhost:4000/api/user  post method
 
-// const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4000;
 
 // if(process.env.NODE_ENV === 'production'){
     //     app.use(express.static(path.join(_dirname,"/frontend/public")));
@@ -106,11 +115,12 @@ passport.use(
                 //     })
                 // }
                 
-_dirname = path.resolve();
+__dirname = path.resolve();
 if(process.env.NODE_ENV === 'production'){
-    app.use(express.static(path.join(_dirname,"/frontend/build")));
+    // if true -> set a static folder
+    app.use(express.static('frontend/build'));
     app.get('*', (req, res)=> {
-        res.sendFile(path.resolve(_dirname, "frontend", "build", "index.html" ));
+        res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html' ));
     })
 }else{
     app.get("/", (req, res)=>{
